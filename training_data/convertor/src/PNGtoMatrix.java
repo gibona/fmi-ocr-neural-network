@@ -24,52 +24,66 @@ public class PNGtoMatrix
 		}
 		cwd = cwd + "source_data";
 		File actual = new File(cwd);
-		for (File f : actual.listFiles())
+		try
 		{
-			if (f.isDirectory())
+			BufferedOutputStream bufferedOutput;
+			bufferedOutput = new BufferedOutputStream(new FileOutputStream(actual.getAbsolutePath() + "\\all.txt"));
+			System.out.println("Writing to " + actual.getAbsolutePath() + "\\all.txt");
+			String s = "", letter;
+			int all_matrixes = 0;
+			System.out.println("Scanning folders");
+
+			for (File f : actual.listFiles())
 			{
-				System.out.println("Current foder: " + f.getAbsolutePath());
-				BufferedOutputStream bufferedOutput;
-				try
+				if (f.isDirectory())
 				{
-					bufferedOutput = new BufferedOutputStream(new FileOutputStream(f.getAbsolutePath() + ".txt"));
-				
-					File[] files= (File[])f.listFiles();
-					bufferedOutput.write(("" + files.length+ "\n").getBytes());
-					String s = "";
-					for (File fonts : files)
-					{
-						System.out.println("processing " + f.getName() + " - " + fonts.getName());
-						try
-						{
-							BufferedImage BI = ImageIO.read(fonts);
-							byte[][] data = convertTo2DWithoutUsingGetRGB(BI);
-							for(int i=0; i<data.length; i++)
-							{
-								for(int j=0; j<data[i].length; j++)
-								{
-									s +=  (j == 0 ? "" : " ") + (data[i][j] == 1 ? "255" : "  0");
-								}
-								s += "\n";
-							}
-							
-						} catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-					}
-					bufferedOutput.write(s.getBytes());
-					bufferedOutput.close();
-				} catch (FileNotFoundException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						all_matrixes+=f.listFiles().length;
 				}
 			}
+			bufferedOutput.write((all_matrixes + "\n").getBytes());
+			for (File f : actual.listFiles())
+			{
+				if (f.isDirectory())
+				{
+					System.out.println("Current foder: " + f.getAbsolutePath());
+						File[] files= (File[])f.listFiles();
+						for (File fonts : files)
+						{
+							System.out.println("processing " + f.getName() + " - " + fonts.getName());
+							try
+							{
+								s = "";
+								BufferedImage BI = ImageIO.read(fonts);
+								byte[][] data = convertTo2DWithoutUsingGetRGB(BI);
+								for(int i=0; i<data.length; i++)
+								{
+									for(int j=0; j<data[i].length; j++)
+									{
+										s +=  (j == 0 ? "" : " ") + (data[i][j] == 1 ? "255" : "  0");
+									}
+									s += "\n";
+								}
+								letter = f.getName();
+								s += ""+ letter.charAt(letter.length()-1) + "\n";
+								
+								bufferedOutput.write(s.getBytes());
+							} catch (IOException e)
+							{
+								e.printStackTrace();
+							}
+						}
+				}
+			}
+			
+			bufferedOutput.close();
+		} catch (FileNotFoundException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
