@@ -48,7 +48,7 @@ public class PNGtoMatrix
 							{
 								for(int j=0; j<data[i].length; j++)
 								{
-									s += data[i][j];
+									s +=  (j == 0 ? "" : " ") + (data[i][j] == 1 ? "255" : "  0");
 								}
 								s += "\n";
 							}
