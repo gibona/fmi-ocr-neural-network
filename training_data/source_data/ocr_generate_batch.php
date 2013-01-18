@@ -6,7 +6,7 @@ $fonts = array(
 	'Helvetica',
 	'Arial',
 	'Comic-Sans-MS',
-	'Impact',
+//	'Impact',
 	'Lucida-Sans-Unicode',
 	'Tahoma',
 	'Trebuchet-MS',
