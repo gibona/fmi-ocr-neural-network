@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -27,7 +28,7 @@ public class WordCropper
 	{
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		String cwd = System.getProperty("user.dir");
-		File actual = new File(cwd + File.separator + "image.jpg");
+		File actual = new File(cwd + File.separator + "image.png");
 	
 		try
 		{
@@ -83,7 +84,11 @@ public class WordCropper
 					if(new_data == null) continue;
 					File outputImageFile = new File(cwd + File.separator + "res"+minY+"x"+minX+".png");
 					BufferedImage res = getGrayscale(new_data);
-					ImageIO.write(res, "png", outputImageFile);
+					Image resized = res.getScaledInstance(29, 29, Image.SCALE_SMOOTH);
+					
+					BufferedImage resizedBI= new BufferedImage(29,29, BufferedImage.TYPE_BYTE_GRAY);
+					resizedBI.getGraphics().drawImage(resized, 0, 0, null);
+					ImageIO.write(resizedBI, "png", outputImageFile);
 					ind++;
 					
 				}

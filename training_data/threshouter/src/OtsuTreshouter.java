@@ -43,11 +43,11 @@ public class OtsuTreshouter
 			File grayscaleImageFile = new File(cwd + File.separator + "grayscale.png");
 			BufferedImage grayscale = getGrayscale(data);
 			ImageIO.write(grayscale, "png", grayscaleImageFile);
-			for(i=0; i<100; i++)
+			for(i=0; i<1; i++)
 			{
 				System.out.println("doing blur/sharpen");
 				data = blur(data);
-//				data = sharpen(data);
+				data = sharpen(data);
 			}
 			System.out.println("saving blur/sharpen");
 			File denosedImageFile = new File(cwd + File.separator + "denosed.png");

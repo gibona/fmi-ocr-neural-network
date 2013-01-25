@@ -33,7 +33,7 @@ public class PNGtoMatrixReal
 
 			for (File f : actual.listFiles())
 			{
-				
+				if(f.isDirectory()) continue;
 				BufferedOutputStream bufferedOutput;
 				bufferedOutput = new BufferedOutputStream(new FileOutputStream(actual.getAbsolutePath() + "\\data.txt", true));
 				System.out.println("processing " + f.getName() + " - " + f.getName());
@@ -52,7 +52,7 @@ public class PNGtoMatrixReal
 						s += "\n";
 					}
 					letter = f.getName();
-					//s += ""+ letter.charAt(letter.length()-1) + "\n";
+					s += ""+ letter.charAt(0) + "\n";
 					
 					bufferedOutput.write(s.getBytes());
 				} catch (IOException e)
