@@ -28,7 +28,7 @@ public class WordCropper
 	{
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		String cwd = System.getProperty("user.dir");
-		File actual = new File(cwd + File.separator + "image.png");
+		File actual = new File(cwd + File.separator + "image.jpg");
 	
 		try
 		{

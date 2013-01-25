@@ -26,7 +26,7 @@ public class WordCropperHistogram
 	{
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		String cwd = System.getProperty("user.dir");
-		File actual = new File(cwd + File.separator + "image.png");
+		File actual = new File(cwd + File.separator + "image.jpg");
 	
 		try
 		{
@@ -84,15 +84,16 @@ public class WordCropperHistogram
 				
 				height_start = height_points.elementAt(h);
 				height_end	 = height_points.elementAt(h+1);
-				for(j=height_start; j<height_end; j++)
+				for(i=0; i<width; i++)
 				{
-					for(i=0; i<width; i++)
+					for(j=height_start; j<height_end; j++)
 					{
 						if(data[j][i] == 0)
 						{
 							histogram_width[i] += 1;
 						}
 					}
+					System.out.println(histogram_width[i]);
 				}
 				
 				if(histogram_width[0] > 0) width_points.add(0);
