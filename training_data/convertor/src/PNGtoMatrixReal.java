@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-public class PNGtoMatrixTest
+public class PNGtoMatrixReal
 {
 	public static void main(String[] args)
 	{
@@ -23,7 +23,7 @@ public class PNGtoMatrixTest
 		{
 			cwd = cwd + cwds[i] + File.separator;
 		}
-		cwd = cwd + "test_data";
+		cwd = cwd + "real_test_data";
 		File actual = new File(cwd);
 		try
 		{
@@ -33,41 +33,34 @@ public class PNGtoMatrixTest
 
 			for (File f : actual.listFiles())
 			{
-				if (f.isDirectory())
+				
+				BufferedOutputStream bufferedOutput;
+				bufferedOutput = new BufferedOutputStream(new FileOutputStream(actual.getAbsolutePath() + "\\data.txt", true));
+				System.out.println("processing " + f.getName() + " - " + f.getName());
+				try
 				{
-					System.out.println("Current foder: " + f.getAbsolutePath());
-						File[] files= (File[])f.listFiles();
-						for (File fonts : files)
+					s = "";
+					BufferedImage BI = ImageIO.read(f);
+					if(BI == null) continue;
+					int[][] data = convertTo2DWithoutUsingGetRGB(BI);
+					for(int i=0; i<data.length; i++)
+					{
+						for(int j=0; j<data[i].length; j++)
 						{
-							BufferedOutputStream bufferedOutput;
-							bufferedOutput = new BufferedOutputStream(new FileOutputStream(actual.getAbsolutePath() + "\\"+fonts.getName()+".txt", true));
-							System.out.println("processing " + f.getName() + " - " + fonts.getName());
-							try
-							{
-								s = "";
-								BufferedImage BI = ImageIO.read(fonts);
-								int[][] data = convertTo2DWithoutUsingGetRGB(BI);
-								for(int i=0; i<data.length; i++)
-								{
-									for(int j=0; j<data[i].length; j++)
-									{
-										s +=  String.format("% 3d ", 255 - data[i][j]);
-									}
-									s += "\n";
-								}
-								letter = f.getName();
-								s += ""+ letter.charAt(letter.length()-1) + "\n";
-								
-								bufferedOutput.write(s.getBytes());
-							} catch (IOException e)
-							{
-								e.printStackTrace();
-							}
-							bufferedOutput.close();
+							s +=  String.format("% 4d ", 255 - data[i][j]);
 						}
+						s += "\n";
+					}
+					letter = f.getName();
+					//s += ""+ letter.charAt(letter.length()-1) + "\n";
+					
+					bufferedOutput.write(s.getBytes());
+				} catch (IOException e)
+				{
+					e.printStackTrace();
 				}
+				bufferedOutput.close();
 			}
-			
 		} catch (FileNotFoundException e1)
 		{
 			// TODO Auto-generated catch block
