@@ -1,0 +1,2 @@
+Test: all instances = 62, correctly classified: 22
+Hit rate: 35.483871 
